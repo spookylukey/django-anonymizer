@@ -19,8 +19,7 @@ class DjangoFaker(object):
         field_vals = set(x[0] for x in field.model._default_manager.values_list(field.name))
         self.init_values[field] = field_vals
 
-
-    def get_allowed_value(self, source, field):
+    def _get_allowed_value(self, source, field):
         retval = source()
 
         # Enforce unique.  Eensure we don't set the same values, as either
@@ -47,12 +46,13 @@ class DjangoFaker(object):
         return retval
 
     def __getattr__(self, name):
-        # we delegate all calls to faker, but add checks
+        # we delegate most calls to faker, but add checks
+        source = getattr(self.faker, name)
+
         def func(*args, **kwargs):
-            source = getattr(self.faker, name)
             field = kwargs.get('field', None)
             if field is not None:
-                return self.get_allowed_value(source, field)
+                return self._get_allowed_value(source, field)
             else:
                 return source()
         return func
