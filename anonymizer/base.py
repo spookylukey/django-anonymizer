@@ -1,3 +1,7 @@
+from datetime import datetime
+import random
+randrange = random.SystemRandom().randrange
+
 from django.db import transaction
 from django.db.utils import IntegrityError
 from faker import Faker
@@ -21,6 +25,8 @@ class DjangoFaker(object):
 
     def _get_allowed_value(self, source, field):
         retval = source()
+        if field is None:
+            return retval
 
         # Enforce unique.  Eensure we don't set the same values, as either
         # any of the existing values, or any of the new ones we make up.
@@ -45,16 +51,48 @@ class DjangoFaker(object):
 
         return retval
 
+    ### Public interace ##
+
+    def datetime(self, obj=None, field=None, val=None):
+        """
+        Returns a random datetime. If 'val' is passed, a datetime within two
+        years of that date will be returned.
+        """
+        if val is None:
+            source = lambda: datetime.fromtimestamp(randrange(1, 2100000000))
+        else:
+            source = lambda: datetime.fromtimestamp(int(val.strftime("%s")) +
+                                                    randrange(-365*24*3600*2, 365*24*3600*2))
+        return self._get_allowed_value(source, field)
+
+    def date(self, obj=None, field=None, val=None):
+        """
+        Like datetime, but truncated to be a date only
+        """
+        d = self.datetime(obj=obj, field=field, val=val)
+        return d.date()
+
+    ## Other attributes provided by 'Faker':
+
+    # username
+    # first_name
+    # last_name
+    # name
+    # full_address
+    # phonenumber
+    # streetaddress
+    # city
+    # state
+    # zip_code
+    # lorem
+
     def __getattr__(self, name):
         # we delegate most calls to faker, but add checks
         source = getattr(self.faker, name)
 
         def func(*args, **kwargs):
             field = kwargs.get('field', None)
-            if field is not None:
-                return self._get_allowed_value(source, field)
-            else:
-                return source()
+            return self._get_allowed_value(source, field)
         return func
 
 
