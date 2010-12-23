@@ -90,6 +90,10 @@ class DjangoFaker(object):
         source = lambda: random.choice(data.UK_COUNTIES)
         return self._get_allowed_value(source, field)
 
+    def uk_country(self, field=None):
+        source = lambda: random.choice(data.UK_COUNTRIES)
+        return self._get_allowed_value(source, field)
+
     ## Other attributes provided by 'Faker':
 
     # username
