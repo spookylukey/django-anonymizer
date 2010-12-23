@@ -114,12 +114,5 @@ class Anonymizer(object):
        for obj in self.get_query_set():
            retval = self.alter_object(obj)
            if retval is not False:
-               try:
-                   sid = transaction.savepoint()
-                   obj.save()
-                   transaction.savepoint_commit(sid)
-               except IntegrityError:
-                   transaction.savepoint_rollback(sid)
-                   from IPython.Shell import IPShellEmbed; IPShellEmbed([])()
-                   #raise
+            obj.save()
 
