@@ -53,6 +53,13 @@ class DjangoFaker(object):
 
     ### Public interace ##
 
+    def bool(self, field=None):
+        """
+        Returns a random boolean
+        """
+        source = lambda: bool(randrange(0, 2))
+        return self._get_allowed_value(source, field)
+
     def datetime(self, obj=None, field=None, val=None):
         """
         Returns a random datetime. If 'val' is passed, a datetime within two
