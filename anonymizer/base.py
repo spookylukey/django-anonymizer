@@ -64,7 +64,7 @@ class DjangoFaker(object):
         source = lambda: bool(randrange(0, 2))
         return self._get_allowed_value(source, field)
 
-    def datetime(self, obj=None, field=None, val=None):
+    def datetime(self, field=None, val=None):
         """
         Returns a random datetime. If 'val' is passed, a datetime within two
         years of that date will be returned.
@@ -76,11 +76,11 @@ class DjangoFaker(object):
                                                     randrange(-365*24*3600*2, 365*24*3600*2))
         return self._get_allowed_value(source, field)
 
-    def date(self, obj=None, field=None, val=None):
+    def date(self, field=None, val=None):
         """
         Like datetime, but truncated to be a date only
         """
-        d = self.datetime(obj=obj, field=field, val=val)
+        d = self.datetime(field=field, val=val)
         return d.date()
 
     def uk_postcode(self, field=None):
