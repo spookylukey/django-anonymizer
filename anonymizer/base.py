@@ -1,10 +1,14 @@
 from datetime import datetime
 import random
-randrange = random.SystemRandom().randrange
 
 from django.db import transaction
 from django.db.utils import IntegrityError
+from faker import data
 from faker import Faker
+from faker.utils import uk_postcode
+
+randrange = random.SystemRandom().randrange
+
 
 class DjangoFaker(object):
     """
@@ -78,6 +82,13 @@ class DjangoFaker(object):
         """
         d = self.datetime(obj=obj, field=field, val=val)
         return d.date()
+
+    def uk_postcode(self, field=None):
+        return self._get_allowed_value(uk_postcode, field)
+
+    def uk_county(self, field=None):
+        source = lambda: random.choice(data.UK_COUNTIES)
+        return self._get_allowed_value(source, field)
 
     ## Other attributes provided by 'Faker':
 
