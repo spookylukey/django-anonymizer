@@ -35,5 +35,6 @@ setup(
         "Framework :: Django",
         "Topic :: Software Development :: Testing",
         "Topic :: Database"
-        ]
+        ],
+    install_requires = ['faker >= 0.0.4'],
 )
