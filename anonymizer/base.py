@@ -163,7 +163,15 @@ class Anonymizer(object):
        """
        currentval = getattr(obj, attname)
        field = obj._meta.get_field_by_name(attname)[0]
+       if isinstance(replacer, str):
+           # 'email' is shortcut for: lambda self, obj, field, val: self.faker.email(field=field)
+           fake_source = getattr(self.faker, replacer)
+           replacer = lambda self, obj, field, val: fake_source(field=field)
+       elif not callable(replacer):
+           raise Exception("Expected callable or string to be passed, got %r." % replacer)
+
        replacement = replacer(self, obj, field, currentval)
+
        setattr(obj, attname, replacement)
 
    def run(self):

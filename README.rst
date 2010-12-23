@@ -46,20 +46,29 @@ Usage:
   ``anonymizer.base.Anonymizer`` in order to do filtering and other
   customization.
 
-  The 'attributes' dictionary is the key attribute to edit. The keys
-  are the attribute names of attributes on the model that need to be set.
-  The values are callables that take the following arguments:
+  The 'attributes' dictionary is the key attribute to edit. The keys are the
+  attribute names of attributes on the model that need to be set.  The values
+  are either strings (as a shortcut, see below), or callables that take the
+  following arguments:
 
   * The Anonymizer instance
   * The object being edited.
   * The field being edited
   * The current value of the field.
 
-  The Anonymizer instance has an attribute 'faker' which is useful for
+
+  The Anonymizer instance has an attribute 'faker' attribute which is useful for
   generating faked data.
+
+  If the value is a string, e.g. 'email', it is turned into a lambda
+  as follows:
+
+     lambda self, obj, field, val: self.faker.email(field=field)
 
   An example Anonymizer for django.contrib.auth.models.User might look like
   this::
+
+      from datetime import datetime
 
       from anonymizer import Anonymizer
       from django.contrib.auth.models import User
@@ -69,14 +78,22 @@ Usage:
           model = User
 
           attributes = {
-              'username':   lambda self, obj, field, val: self.faker.username(field=field),
-              'first_name': lambda self, obj, field, val: self.faker.first_name(field=field),
-              'last_name':  lambda self, obj, field, val: self.faker.last_name(field=field),
-              'email':      lambda self, obj, field, val: self.faker.email(field=field),
+              'username':   'username',
+              'first_name': 'first_name',
+              'last_name':  'last_name',
+              'email':      'email',
+              # Set the date_joined to a similar time to when they actually
+              # joined, by passing the 'val' parameter to faker.datetime
+              'date_joined': lambda self, obj, field, val: self.faker.datetime(field=field, val=val),
+              # Set to today:
+              'last_login': lambda *args: datetime.now()
           }
 
           def alter_object(self, obj):
+              if obj.is_superuser:
+                  return False # don't change, so we can still log in.
               super(UserAnonymizer, self).alter_object(obj)
+              # Destroy all passwords for everyone else
               obj.set_unusable_password()
 
 * If you need to create anonymizers for apps that you do not control, you may
@@ -84,7 +101,7 @@ Usage:
   control. It doesn't matter if the anonymizer classes are for models that do
   not correspond to the applications they are contained it.
 
-  (For example, if you specify 'django.contrib.auth' as an app to specify, you
+  (For example, if you want to anonymize the models in django.contrib.auth, you
   will probably want to move the contents of django/contrib/auth/anonymizers.py
   into yourprojectapp/anonymizers.py)
 
