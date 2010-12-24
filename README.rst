@@ -103,3 +103,11 @@ Usage:
 
   This will DESTRUCTIVELY UPDATE all your data. Make sure you have backups,
   use at own risk, yada yada.
+
+* Note: your database may not actually delete the changed data from the disk
+  when you update fields. For Postgresql you will need to VACUUM to delete that
+  data.
+
+  And even then, your operating system may not delete the data from the
+  disk. Properly getting rid of these traces is left as an excercise to the
+  reader :-)
