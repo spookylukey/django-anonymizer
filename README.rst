@@ -10,7 +10,7 @@ sensitive customer data on development machines and other placers (like
 automatic backups). This Django app helps by giving an easy and customizable way
 to anonymize data in your models.
 
-The basic method is go through all the models that you specify, and generate
+The basic method is to go through all the models that you specify, and generate
 fake data for all the fields specified. Introspection of the models will produce
 an anonymizer that will attempt to provide sensible fake data for each field,
 leaving you to tweak for your needs.
@@ -56,8 +56,8 @@ Usage:
 
   For some fields, you will want to remove them from the list of attributes, so
   that the values will be unchanged - especially things like denormalised
-  fields. You can also override the 'alter_object' to do any fixing that may
-  be necessary.
+  fields. You can also override the 'alter_object' method to do any fixing that
+  may be necessary.
 
   An example Anonymizer for django.contrib.auth.models.User might look like
   this::
