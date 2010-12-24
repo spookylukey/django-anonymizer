@@ -250,7 +250,7 @@ class Anonymizer(object):
        setattr(obj, attname, replacement)
 
    def run(self):
-       for obj in self.get_query_set():
+       for obj in self.get_query_set().iterator():
            retval = self.alter_object(obj)
            if retval is not False:
             obj.save()
