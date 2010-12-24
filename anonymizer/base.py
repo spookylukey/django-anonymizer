@@ -66,10 +66,12 @@ class DjangoFaker(object):
 
     ### Public interace ##
 
-    def varchar(self, max_length, field=None):
+    def varchar(self, field=None):
         """
         Returns a chunk of text, of maximum length 'max_length'
         """
+        assert field is not None, "The field parameter must be passed to the 'varchar' method."
+        max_length = field.max_length
         def source():
             length = random.choice(range(0, max_length + 1))
             return "".join(random.choice(general_chars) for i in xrange(length))

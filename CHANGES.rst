@@ -1,3 +1,9 @@
+Version 0.1.2
+-------------
+
+* Changed 'varchar' field to do max_length introspection at runtime.
+  This breaks the previous signature of the function.
+
 
 Version 0.1.1
 -------------

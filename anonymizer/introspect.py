@@ -66,8 +66,7 @@ def get_replacer_for_field(field):
             return '"lorem"'
 
         # Just try some random chars
-        max_length = field.max_length
-        return "lambda self, obj, field, val: self.faker.varchar(%d, field=field)" % max_length
+        return '"varchar"'
 
 
     try:
