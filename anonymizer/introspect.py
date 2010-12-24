@@ -2,18 +2,6 @@ import re
 
 from django.db.models import EmailField
 
-attribute_template = "        '%(attname)s': %(replacer)s,"
-
-class_template = """
-class %(modelname)sAnonymizer(Anonymizer):
-
-    model = %(modelname)s
-
-    attributes = {
-%(attributes)s
-    }
-"""
-
 field_replacers = {
     'AutoField': None,
     'ForeignKey': None,
@@ -93,16 +81,27 @@ def get_replacer_for_field(field):
 
     return r
 
+attribute_template = "        '%(attname)s': %(replacer)s,"
+skipped_template   = "         # Skipping field %s"
+class_template = """
+class %(modelname)sAnonymizer(Anonymizer):
+
+    model = %(modelname)s
+
+    attributes = {
+%(attributes)s
+    }
+"""
+
 def create_anonymizer(model):
-    replacers = []
+    attributes = []
     for f in model._meta.fields:
         replacer = get_replacer_for_field(f)
-        if replacer is not None:
-            replacers.append((f.attname, replacer))
-
-    attributes = "\n".join(attribute_template % {'attname': att,
-                                                 'replacer': replacer }
-                           for att, replacer in replacers)
+        if replacer is None:
+            attributes.append(skipped_template % f.attname)
+        else:
+            attributes.append(attribute_template % {'attname': f.attname,
+                                                    'replacer': replacer })
     return class_template % {'modelname':model.__name__,
-                             'attributes': attributes }
+                             'attributes': "\n".join(attributes) }
 
