@@ -60,8 +60,6 @@ def get_replacer_for_field(field):
 
     field_type = field.get_internal_type()
     if field_type == "CharField" or field_type == "TextField":
-        #from IPython.Shell import IPShellEmbed; IPShellEmbed([])()
-
         # Guess by the name
 
         # First, go for complete match
@@ -87,15 +85,10 @@ def get_replacer_for_field(field):
         r = field_replacers[field_type]
     except KeyError:
         r = "UNKNOWN_FIELD"
-        from IPython.Shell import IPShellEmbed; IPShellEmbed([])()
 
 
     if r is None:
         return None
-
-    #if field.attname == 'youth_work_declined':
-    #    from IPython.Shell import IPShellEmbed; IPShellEmbed([])()
-
 
     return r
 
