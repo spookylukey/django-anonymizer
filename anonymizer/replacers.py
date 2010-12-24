@@ -24,3 +24,8 @@ state = lambda anon, obj, field, val: anon.faker.state(field=field)
 zip_code = lambda anon, obj, field, val: anon.faker.zip_code(field=field)
 company = lambda anon, obj, field, val: anon.faker.company(field=field)
 lorem = lambda anon, obj, field, val: anon.faker.lorem(field=field)
+
+# These use the value of the field to return a date/datetime that is close
+# (within two years) of the original value.
+similar_datetime = lambda anon, obj, field, val: anon.faker.datetime(field=field, val=val)
+similar_date = lambda anon, obj, field, val: anon.faker.date(field=field, val=val)
