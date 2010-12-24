@@ -1,8 +1,6 @@
 from datetime import datetime
 import random
 
-from django.db import transaction
-from django.db.utils import IntegrityError
 from faker import data
 from faker import Faker
 from faker.utils import uk_postcode, bothify
