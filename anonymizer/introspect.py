@@ -75,10 +75,6 @@ def get_replacer_for_field(field):
     except KeyError:
         r = "UNKNOWN_FIELD"
 
-
-    if r is None:
-        return None
-
     return r
 
 attribute_template = "        '%(attname)s': %(replacer)s,"
