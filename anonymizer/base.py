@@ -5,10 +5,19 @@ from django.db import transaction
 from django.db.utils import IntegrityError
 from faker import data
 from faker import Faker
-from faker.utils import uk_postcode
+from faker.utils import uk_postcode, bothify
 
 randrange = random.SystemRandom().randrange
 
+alphanumeric = ""
+for i in range(ord('A'), ord('Z')+1):
+    alphanumeric += chr(i)
+for i in range(ord('a'), ord('z')+1):
+    alphanumeric += chr(i)
+for i in range(ord('0'), ord('9')+1):
+    alphanumeric += chr(i)
+
+general_chars = alphanumeric + " _-"
 
 class DjangoFaker(object):
     """
@@ -57,11 +66,44 @@ class DjangoFaker(object):
 
     ### Public interace ##
 
+    def varchar(self, max_length, field=None):
+        """
+        Returns a chunk of text, of maximum length 'max_length'
+        """
+        def source():
+            length = random.choice(range(0, max_length + 1))
+            return "".join(random.choice(general_chars) for i in xrange(length))
+        return self._get_allowed_value(source, field)
+
+    def simple_pattern(self, pattern, field=None):
+        """
+        Use a simple pattern to make the field - # is replaced with a random number,
+        ? with a random letter.
+        """
+        source = lambda: bothify(pattern)
+        return self._get_allowed_value(source, field)
+
     def bool(self, field=None):
         """
         Returns a random boolean
         """
         source = lambda: bool(randrange(0, 2))
+        return self._get_allowed_value(source, field)
+
+    def integer(self, field=None):
+        source = lambda: random.randint(-1000000, 1000000)
+        return self._get_allowed_value(source, field)
+
+    def positive_integer(self, field=None):
+        source = lambda: random.randint(0, 1000000)
+        return self._get_allowed_value(source, field)
+
+    def small_integer(self, field=None):
+        source = lambda: random.randint(-32768, +32767)
+        return self._get_allowed_value(source, field)
+
+    def positive_small_integer(self, field=None):
+        source = lambda: random.randint(0, 32767)
         return self._get_allowed_value(source, field)
 
     def datetime(self, field=None, val=None):
