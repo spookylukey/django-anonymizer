@@ -46,27 +46,15 @@ Usage:
 
   The 'attributes' dictionary is the key attribute to edit. The keys are the
   attribute names of attributes on the model that need to be set.  The values
-  are either strings (as a shortcut, see below), or callables that take the
-  following arguments:
-
-  * The Anonymizer instance
-  * The object being edited.
-  * The field being edited
-  * The current value of the field.
-
-
-  The Anonymizer instance has an attribute 'faker' attribute which is useful for
-  generating faked data.
-
-  If the value is a string, e.g. 'email', it is turned into a lambda
-  as follows::
-
-     lambda self, obj, field, val: self.faker.email(field=field)
+  are either strings or callables. If strings, they will be interpreted as a
+  function in the module ``anonymizers.replacers``. If callables, they should
+  have a signature compatible with those callables. You can use ``lambda *args:
+  my_constant_value`` to return a constant.
 
   For some fields, you will want to remove them from the list of attributes, so
   that the values will be unchanged - especially things like denormalised
-  fields. You may need to override the 'alter_object' to fix up any fields like
-  that.
+  fields. You can also override the 'alter_object' to do any fixing that may
+  be necessary.
 
   An example Anonymizer for django.contrib.auth.models.User might look like
   this::

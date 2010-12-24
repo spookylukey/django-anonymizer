@@ -7,6 +7,8 @@ from faker import data
 from faker import Faker
 from faker.utils import uk_postcode, bothify
 
+from anonymizer import replacers
+
 randrange = random.SystemRandom().randrange
 
 alphanumeric = ""
@@ -144,6 +146,7 @@ class DjangoFaker(object):
     # first_name
     # last_name
     # name
+    # email
     # full_address
     # phonenumber
     # street_address
@@ -213,9 +216,8 @@ class Anonymizer(object):
        currentval = getattr(obj, attname)
        field = obj._meta.get_field_by_name(attname)[0]
        if isinstance(replacer, str):
-           # 'email' is shortcut for: lambda self, obj, field, val: self.faker.email(field=field)
-           fake_source = getattr(self.faker, replacer)
-           replacer = lambda self, obj, field, val: fake_source(field=field)
+           # 'email' is shortcut for: replacers.email
+           replacer = getattr(replacers, replacer)
        elif not callable(replacer):
            raise Exception("Expected callable or string to be passed, got %r." % replacer)
 
