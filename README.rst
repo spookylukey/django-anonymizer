@@ -47,8 +47,11 @@ Usage:
   The 'attributes' dictionary is the key attribute to edit. The keys are the
   attribute names of attributes on the model that need to be set.  The values
   are either strings or callables. If strings, they will be interpreted as a
-  function in the module ``anonymizers.replacers``. If callables, they should
-  have a signature compatible with those callables. You can use ``lambda *args:
+  function in the module ``anonymizer.replacers``. This module can be browsed
+  to find suitable functions to use to anonymize data.
+
+  If callables are used as the keys, they should have a signature compatible
+  with the callables in ``anonymizer.replacers``. You can use ``lambda *args:
   my_constant_value`` to return a constant.
 
   For some fields, you will want to remove them from the list of attributes, so
@@ -73,9 +76,7 @@ Usage:
               'first_name': 'first_name',
               'last_name':  'last_name',
               'email':      'email',
-              # Set the date_joined to a similar time to when they actually
-              # joined, by passing the 'val' parameter to faker.datetime
-              'date_joined': lambda self, obj, field, val: self.faker.datetime(field=field, val=val),
+              'date_joined': 'similar_datetime'
               # Set to today:
               'last_login': lambda *args: datetime.now()
           }
