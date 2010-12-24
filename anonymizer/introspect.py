@@ -19,6 +19,7 @@ field_replacers = {
     'ForeignKey': None,
     'ManyToManyField': None,
     'OneToOneField': None,
+    'SlugField': None, # we probably don't want to change slugs
     'DateField': '"date"',
     'DateTimeField': '"datetime"',
     'BooleanField': '"bool"',
