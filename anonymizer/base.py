@@ -144,10 +144,11 @@ class DjangoFaker(object):
     # name
     # full_address
     # phonenumber
-    # streetaddress
+    # street_address
     # city
     # state
     # zip_code
+    # company
     # lorem
 
     def __getattr__(self, name):
