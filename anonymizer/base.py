@@ -138,6 +138,33 @@ class DjangoFaker(object):
         source = lambda: random.choice(data.UK_COUNTRIES)
         return self._get_allowed_value(source, field)
 
+    def lorem(self, field=None, val=None):
+        """
+        Returns lorem ipsum text. If val is provided, the lorem ipsum text will
+        be the same length as the original text, and with the same pattern of
+        line breaks.
+        """
+        if val is not None:
+            def generate(length):
+                # Get lorem ipsum of a specific length.
+                collect = ""
+                while len(collect) < length:
+                    collect += self.faker.lorem()
+                collect = collect[:length]
+                return collect
+
+            # We want to match the pattern of the text - linebreaks
+            # in the same places.
+            def source():
+                parts = val.split("\n")
+                for i, p in enumerate(parts):
+                    # Replace each bit with lorem ipsum of the same length
+                    parts[i] = generate(len(p))
+                return "\n".join(parts)
+        else:
+            source = self.faker.lorem
+        return self._get_allowed_value(source, field)
+
     ## Other attributes provided by 'Faker':
 
     # username
@@ -152,7 +179,6 @@ class DjangoFaker(object):
     # state
     # zip_code
     # company
-    # lorem
 
     def __getattr__(self, name):
         # we delegate most calls to faker, but add checks

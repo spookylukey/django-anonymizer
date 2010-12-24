@@ -29,3 +29,10 @@ lorem = lambda anon, obj, field, val: anon.faker.lorem(field=field)
 # (within two years) of the original value.
 similar_datetime = lambda anon, obj, field, val: anon.faker.datetime(field=field, val=val)
 similar_date = lambda anon, obj, field, val: anon.faker.date(field=field, val=val)
+
+# similar_lorem produces lorem ipsum text with the same length and same pattern
+# of linebreaks as the original. If the original often takes a standard form
+# (e.g. a single word 'yes' or 'no'), this could easily fail to hide the
+# original data.
+similar_lorem = lambda anon, obj, field, val: anon.faker.lorem(field=field, val=val)
+
