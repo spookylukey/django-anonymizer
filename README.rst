@@ -59,9 +59,14 @@ Usage:
   generating faked data.
 
   If the value is a string, e.g. 'email', it is turned into a lambda
-  as follows:
+  as follows::
 
      lambda self, obj, field, val: self.faker.email(field=field)
+
+  For some fields, you will want to remove them from the list of attributes, so
+  that the values will be unchanged - especially things like denormalised
+  fields. You may need to override the 'alter_object' to fix up any fields like
+  that.
 
   An example Anonymizer for django.contrib.auth.models.User might look like
   this::
@@ -105,7 +110,7 @@ Usage:
 
 * To run the anonymizers, do::
 
-    ./manage.py anonymize_data
+    ./manage.py anonymize_data app_name1 [app_name2...]
 
   This will DESTRUCTIVELY UPDATE all your data. Make sure you have backups,
   use at own risk, yada yada.
