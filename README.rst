@@ -29,9 +29,7 @@ Usage:
 
 * Add 'anonymizer' to your ``INSTALLED_APPS`` setting.
 
-* AUTOMATIC INTROSPECTION - YET TO BE IMPLEMENTED:
-
-  To create some stub files for your anonymizers, do::
+* To create some stub files for your anonymizers, do::
 
     ./manage.py create_anonymizers app_name1 [app_name2...]
 
