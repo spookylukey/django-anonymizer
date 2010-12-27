@@ -41,7 +41,7 @@ class DjangoFaker(object):
         if field is None:
             return retval
 
-        # Enforce unique.  Eensure we don't set the same values, as either
+        # Enforce unique.  Ensure we don't set the same values, as either
         # any of the existing values, or any of the new ones we make up.
         unique = getattr(field, 'unique', None)
         if unique:
@@ -230,7 +230,14 @@ class Anonymizer(object):
         If it returns False, the object will not be saved
         """
         attributes = self.get_attributes()
-        for attname, replacer in attributes.items():
+        if isinstance(attributes, dict):
+            import warnings
+            warnings.warn("The 'attributes' attribute should now be a list of tuples, not a dictionary", PendingDeprecationWarning)
+            items = attributes.items()
+        else:
+            items = attributes
+
+        for attname, replacer in items:
             self.alter_object_attribute(obj, attname, replacer)
 
     def alter_object_attribute(self, obj, attname, replacer):

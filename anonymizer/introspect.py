@@ -76,21 +76,32 @@ def get_replacer_for_field(field):
 
     return r
 
-attribute_template = "        '%(attname)s': %(replacer)s,"
+attribute_template = "        ('%(attname)s', %(replacer)s),"
 skipped_template   = "         # Skipping field %s"
 class_template = """
 class %(modelname)sAnonymizer(Anonymizer):
 
     model = %(modelname)s
 
-    attributes = {
+    attributes = [
 %(attributes)s
-    }
+    ]
 """
 
 def create_anonymizer(model):
     attributes = []
-    for f in model._meta.fields:
+    fields = model._meta.fields
+    # For the faker.name/username/email magic to work as expected and produce
+    # consistent sets of names/email addreses, they must be accessed in the same
+    # order. This will usually not be a problem, but if duplicate names are
+    # produced and the field is unique=True, the logic in DjangoFaker for
+    # getting new values from the 'source' means that the order will become out
+    # of sync. To avoid this, we put fields with 'unique=True' at the beginning
+    # of the list. Usually this will only be the username.
+    sort_key = lambda f: not getattr(f, 'unique', False)
+    fields.sort(key=sort_key)
+
+    for f in fields:
         replacer = get_replacer_for_field(f)
         if replacer is None:
             attributes.append(skipped_template % f.attname)

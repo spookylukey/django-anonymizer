@@ -1,3 +1,13 @@
+Version 0.2
+-----------
+
+* Changed format of attributes from a dictionary to a list of 2-tuples
+  (with backwards compatibility - previous format is deprecated).
+* Fixed small bug with names/usernames/emails sometimes not being generated in
+  corresponding sets, due to fields with unique=True not being (reliably) set
+  before other fields.
+* Added docs.
+
 Version 0.1.2
 -------------
 
