@@ -27,7 +27,9 @@ Usage:
 
 * Install using setup.py or pip/easy_install.
 
-* Add 'anonymizer' to your ``INSTALLED_APPS`` setting.
+* Add 'anonymizer' to your ``INSTALLED_APPS`` setting. It would be advisable
+  to arrange it so that this only happens on development machines, and not
+  anywhere with access to the live database.
 
 * To create some stub files for your anonymizers, do::
 
@@ -101,8 +103,8 @@ Usage:
 
     ./manage.py anonymize_data app_name1 [app_name2...]
 
-  This will DESTRUCTIVELY UPDATE all your data. Make sure you have backups,
-  use at own risk, yada yada.
+  This will DESTRUCTIVELY UPDATE all your data. Make sure you only do this on a
+  copy of your database, use at own risk, yada yada.
 
 * Note: your database may not actually delete the changed data from the disk
   when you update fields. For Postgresql you will need to VACUUM to delete that
