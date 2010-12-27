@@ -192,66 +192,66 @@ class DjangoFaker(object):
 
 class Anonymizer(object):
 
-   model = None
-   # attributes is a dictionary of {attribute_name: replacer}, where replacer is
-   # a callable that takes as arguments this Anonymizer instance, the object to
-   # be altered, the field to be altered, and the current field value, and
-   # returns a replacement value.
+    model = None
+    # attributes is a dictionary of {attribute_name: replacer}, where replacer is
+    # a callable that takes as arguments this Anonymizer instance, the object to
+    # be altered, the field to be altered, and the current field value, and
+    # returns a replacement value.
 
-   # This signature is designed to be useful for making lambdas that call the
-   # 'faker' instance provided on this class, but it can be used with any
-   # function.
+    # This signature is designed to be useful for making lambdas that call the
+    # 'faker' instance provided on this class, but it can be used with any
+    # function.
 
-   attributes = None
+    attributes = None
 
-   # To impose an order on Anonymizers within a module, this can be set - lower
-   # values are done first.
-   order = 0
+    # To impose an order on Anonymizers within a module, this can be set - lower
+    # values are done first.
+    order = 0
 
-   faker = DjangoFaker()
+    faker = DjangoFaker()
 
-   def get_query_set(self):
-       """
-       Returns the QuerySet to be manipulated
-       """
-       if self.model is None:
-           raise Exception("'model' attribute must be set")
-       return self.model._default_manager.get_query_set().order_by('id')
+    def get_query_set(self):
+        """
+        Returns the QuerySet to be manipulated
+        """
+        if self.model is None:
+            raise Exception("'model' attribute must be set")
+        return self.model._default_manager.get_query_set().order_by('id')
 
-   def get_attributes(self):
-       if self.attributes is None:
-           raise Exception("'attributes' attribute must be set")
-       return self.attributes
+    def get_attributes(self):
+        if self.attributes is None:
+            raise Exception("'attributes' attribute must be set")
+        return self.attributes
 
-   def alter_object(self, obj):
-       """
-       Alters all the attributes in an individual object.
+    def alter_object(self, obj):
+        """
+        Alters all the attributes in an individual object.
 
-       If it returns False, the object will not be saved
-       """
-       attributes = self.get_attributes()
-       for attname, replacer in attributes.items():
-           self.alter_object_attribute(obj, attname, replacer)
+        If it returns False, the object will not be saved
+        """
+        attributes = self.get_attributes()
+        for attname, replacer in attributes.items():
+            self.alter_object_attribute(obj, attname, replacer)
 
-   def alter_object_attribute(self, obj, attname, replacer):
-       """
-       Alters a single attribute in an object.
-       """
-       currentval = getattr(obj, attname)
-       field = obj._meta.get_field_by_name(attname)[0]
-       if isinstance(replacer, str):
-           # 'email' is shortcut for: replacers.email
-           replacer = getattr(replacers, replacer)
-       elif not callable(replacer):
-           raise Exception("Expected callable or string to be passed, got %r." % replacer)
+    def alter_object_attribute(self, obj, attname, replacer):
+        """
+        Alters a single attribute in an object.
+        """
+        currentval = getattr(obj, attname)
+        field = obj._meta.get_field_by_name(attname)[0]
+        if isinstance(replacer, str):
+            # 'email' is shortcut for: replacers.email
+            replacer = getattr(replacers, replacer)
+        elif not callable(replacer):
+            raise Exception("Expected callable or string to be passed, got %r." % replacer)
 
-       replacement = replacer(self, obj, field, currentval)
+        replacement = replacer(self, obj, field, currentval)
 
-       setattr(obj, attname, replacement)
+        setattr(obj, attname, replacement)
 
-   def run(self):
-       for obj in self.get_query_set().iterator():
-           retval = self.alter_object(obj)
-           if retval is not False:
-            obj.save()
+    def run(self):
+        for obj in self.get_query_set().iterator():
+            retval = self.alter_object(obj)
+            if retval is not False:
+             obj.save()
 
