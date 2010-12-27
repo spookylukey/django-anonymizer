@@ -191,6 +191,10 @@ class DjangoFaker(object):
 
 
 class Anonymizer(object):
+    """
+    Base class for all anonymizers. When executed with the ``run()`` method,
+    it will anonymize the data for a specific model.
+    """
 
     model = None
     # attributes is a dictionary of {attribute_name: replacer}, where replacer is
