@@ -220,7 +220,10 @@ class Anonymizer(object):
         """
         if self.model is None:
             raise Exception("'model' attribute must be set")
-        return self.model._default_manager.get_query_set().order_by('id')
+        qs = self.model._default_manager.get_query_set()
+        if len([f for f in self.model._meta.fields if f.name == 'id']) == 1:
+            qs = qs.order_by('id')
+        return qs
 
     def get_attributes(self):
         if self.attributes is None:
