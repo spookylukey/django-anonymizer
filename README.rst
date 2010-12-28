@@ -56,15 +56,6 @@ Quick overview (see docs for more information, either in docs/ or on
   necessary, using the functions in module ``anonymizer.replacers`` or
   custom functions.
 
-* If you need to create anonymizers for apps that you do not control, you may
-  want to move the contents of the anonymizers.py file to an app that you **do**
-  control. It doesn't matter if the anonymizer classes are for models that do
-  not correspond to the applications they are contained it.
-
-  (For example, if you want to anonymize the models in django.contrib.auth, you
-  will probably want to move the contents of django/contrib/auth/anonymizers.py
-  into yourprojectapp/anonymizers.py)
-
 * Run the anonymizers::
 
     ./manage.py anonymize_data app_name1 [app_name2...]
