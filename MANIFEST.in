@@ -3,4 +3,6 @@ include LICENSE
 include AUTHORS
 include docs/Makefile
 include docs/conf.py
+include manage.py
+include test_settings.py
 recursive-include docs *.rst

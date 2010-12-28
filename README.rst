@@ -70,3 +70,11 @@ Quick overview (see docs for more information, either in docs/ or on
   And even then, your operating system may not delete the data from the
   disk. Properly getting rid of these traces is left as an excercise to the
   reader :-)
+
+
+Tests
+=====
+
+To run the test suite, do::
+
+    ./manage.py test --settings=test_settings
