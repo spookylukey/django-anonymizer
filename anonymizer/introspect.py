@@ -1,6 +1,7 @@
 import re
 
 from django.db.models import EmailField
+from django.db.models.loading import get_models
 
 field_replacers = {
     'AutoField': None,
@@ -111,3 +112,17 @@ def create_anonymizer(model):
     return class_template % {'modelname':model.__name__,
                              'attributes': "\n".join(attributes) }
 
+
+def create_anonymizers_module(app):
+    model_names = []
+    imports = []
+    output = []
+    output.append("")
+    imports.append("from anonymizer import Anonymizer")
+    for model in get_models(app):
+        model_names.append(model.__name__)
+        output.append(create_anonymizer(model))
+
+    imports.insert(0, "from %s import %s" % (app.__name__, ", ".join(model_names)))
+
+    return "\n".join(imports) + "\n".join(output)
