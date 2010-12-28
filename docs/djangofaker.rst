@@ -33,24 +33,24 @@ DjangoFaker - Django-aware fake data
    ``faker.Faker`` instance. These include the following, which have some useful
    properties.
 
-   .. method:: name(self)
+   .. method:: name(self, field=None, **kwargs)
 
       Generates a full name, using the '<first name> <last name>' pattern.
 
-   .. method:: first_name(self)
+   .. method:: first_name(self, field=None, **kwargs)
 
       Returns a randomly selected first name
 
-   .. method:: last_name(self)
+   .. method:: last_name(self, field=None, **kwargs)
 
       Returns a randomly selected last name
 
-   .. method:: email(self)
+   .. method:: email(self, field=None, **kwargs)
 
       Returns a randomly generated email address, using the pattern
       '<initial><last name>@<free email provider>'
 
-   .. method:: username(self)
+   .. method:: username(self, field=None, **kwargs)
 
       Returns a randomly generated user name, using the pattern
       '<initial><lastname>'.
