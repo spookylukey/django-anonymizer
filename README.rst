@@ -2,6 +2,9 @@
  Django Anonymizer
 ===================
 
+Intro
+=====
+
 This app helps you anonymize data in a database used for development of a Django
 project.
 
@@ -31,6 +34,9 @@ development/tests is to populate a database from scratch - see `django-poseur
 <https://github.com/gregmuellegger/django-autofixture>`_. The disavantage of
 that method is that the structure of the data - in terms of related models - can
 be unrealistic.
+
+Usage
+=====
 
 Quick overview (see docs for more information, either in docs/ or on
 <http://packages.python.org/django-anonymizer>).
