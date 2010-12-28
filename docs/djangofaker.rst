@@ -21,11 +21,11 @@ DjangoFaker - Django-aware fake data
       ``field`` is the Django model field for which data must be generated. If
       ``None``, the source callable will be used without further checking.
 
-       So far, this method understands and attempts to respect:
+      So far, this method understands and attempts to respect:
 
-       * The ``max_length`` attribute of fields.
+      * The ``max_length`` attribute of fields.
 
-       * The ``unique`` constraint.
+      * The ``unique`` constraint.
 
 
    The remaining public methods all generate different types of fake data, using
