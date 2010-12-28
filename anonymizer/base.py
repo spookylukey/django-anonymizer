@@ -165,6 +165,12 @@ class DjangoFaker(object):
             source = self.faker.lorem
         return self.get_allowed_value(source, field)
 
+    def choice(self, field=None):
+        assert field is not None, "The field parameter must be passed to the 'choice' method."
+        choices = [c[0] for c in field.choices]
+        source = lambda: random.choice(choices)
+        return self.get_allowed_value(source, field)
+
     ## Other attributes provided by 'Faker':
 
     # username

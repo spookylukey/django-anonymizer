@@ -48,6 +48,7 @@ class EverythingModelAnonymizer(Anonymizer):
         ('icon', UNKNOWN_FIELD),
         ('some_datetime', "datetime"),
         ('some_date', "date"),
+        ('sex', "choice"),
     ]
 """
         self.assertEqual(mod.strip(), expected.strip())
@@ -68,6 +69,7 @@ class TestAnonymizer(TestCase):
                                                           age=x,
                                                           some_datetime=datetime.now(),
                                                           some_date=date.today(),
+                                                          sex='X',
                                                           )
 
     def test_eveything(self):
@@ -92,6 +94,7 @@ class TestAnonymizer(TestCase):
                 ('age', "positive_small_integer"),
                 ('some_datetime', "datetime"),
                 ('some_date', "date"),
+                ('sex', "choice"),
             ]
 
         EverythingAnonmyizer().run()
@@ -104,4 +107,6 @@ class TestAnonymizer(TestCase):
             # is first in the list, as recommended and as introspection
             # generates.
             self.assertTrue(o.email.startswith(o.username))
+            # test for DjangoFaker.choice
+            self.assertTrue(o.sex in ('M', 'F'))
 

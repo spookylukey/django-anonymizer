@@ -21,3 +21,5 @@ class EverythingModel(models.Model):
     icon = models.ImageField(upload_to='.')
     some_datetime = models.DateTimeField()
     some_date = models.DateField()
+    sex = models.CharField(max_length=1, choices=[('M', 'Male'),
+                                                  ('F', 'Female')])

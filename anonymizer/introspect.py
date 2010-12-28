@@ -48,6 +48,11 @@ def get_replacer_for_field(field):
     if isinstance(field, EmailField):
         return '"email"'
 
+    # Use choices, if available.
+    choices = getattr(field, 'choices', None)
+    if choices is not None and len(choices) > 0:
+        return '"choice"'
+
     field_type = field.get_internal_type()
     if field_type == "CharField" or field_type == "TextField":
         # Guess by the name

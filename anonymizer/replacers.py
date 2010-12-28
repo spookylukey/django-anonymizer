@@ -135,3 +135,8 @@ Produces lorem ipsum text with the same length and same pattern of linebreaks as
 the original. If the original often takes a standard form (e.g. a single word
 'yes' or 'no'), this could easily fail to hide the original data.
 """
+
+choice = lambda anon, obj, field, val: anon.faker.choice(field=field)
+choice.__doc__ = """
+Randomly chooses one of the choices set on the field.
+"""
