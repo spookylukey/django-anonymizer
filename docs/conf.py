@@ -16,7 +16,16 @@ import sys, os
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#sys.path.insert(0, os.path.abspath('.'))
+#sys.path.insert(0, os.path.abspath('../'))
+
+# To be able to find source and dependencies, we must include the virtualenv
+venv = os.path.join(os.environ['HOME'], ".virtualenvs/anonymizer/bin/activate_this.py")
+if os.path.exists(venv):
+    execfile(venv, dict(__file__=venv))
+else:
+    sys.stderr.write("Virtualenv %s not found, building docs will fail !!\n" % venv)
+    sys.stderr.write("Since the docs use the 'autodocs' extension, the sources need to be importable by the Sphinx process.\n")
+
 
 # -- General configuration -----------------------------------------------------
 

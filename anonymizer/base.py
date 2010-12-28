@@ -36,7 +36,7 @@ class DjangoFaker(object):
         field_vals = set(x[0] for x in field.model._default_manager.values_list(field.name))
         self.init_values[field] = field_vals
 
-    def _get_allowed_value(self, source, field):
+    def get_allowed_value(self, source, field):
         retval = source()
         if field is None:
             return retval
@@ -75,7 +75,7 @@ class DjangoFaker(object):
         def source():
             length = random.choice(range(0, max_length + 1))
             return "".join(random.choice(general_chars) for i in xrange(length))
-        return self._get_allowed_value(source, field)
+        return self.get_allowed_value(source, field)
 
     def simple_pattern(self, pattern, field=None):
         """
@@ -83,30 +83,30 @@ class DjangoFaker(object):
         ? with a random letter.
         """
         source = lambda: bothify(pattern)
-        return self._get_allowed_value(source, field)
+        return self.get_allowed_value(source, field)
 
     def bool(self, field=None):
         """
         Returns a random boolean
         """
         source = lambda: bool(randrange(0, 2))
-        return self._get_allowed_value(source, field)
+        return self.get_allowed_value(source, field)
 
     def integer(self, field=None):
         source = lambda: random.randint(-1000000, 1000000)
-        return self._get_allowed_value(source, field)
+        return self.get_allowed_value(source, field)
 
     def positive_integer(self, field=None):
         source = lambda: random.randint(0, 1000000)
-        return self._get_allowed_value(source, field)
+        return self.get_allowed_value(source, field)
 
     def small_integer(self, field=None):
         source = lambda: random.randint(-32768, +32767)
-        return self._get_allowed_value(source, field)
+        return self.get_allowed_value(source, field)
 
     def positive_small_integer(self, field=None):
         source = lambda: random.randint(0, 32767)
-        return self._get_allowed_value(source, field)
+        return self.get_allowed_value(source, field)
 
     def datetime(self, field=None, val=None):
         """
@@ -118,7 +118,7 @@ class DjangoFaker(object):
         else:
             source = lambda: datetime.fromtimestamp(int(val.strftime("%s")) +
                                                     randrange(-365*24*3600*2, 365*24*3600*2))
-        return self._get_allowed_value(source, field)
+        return self.get_allowed_value(source, field)
 
     def date(self, field=None, val=None):
         """
@@ -128,15 +128,15 @@ class DjangoFaker(object):
         return d.date()
 
     def uk_postcode(self, field=None):
-        return self._get_allowed_value(uk_postcode, field)
+        return self.get_allowed_value(uk_postcode, field)
 
     def uk_county(self, field=None):
         source = lambda: random.choice(data.UK_COUNTIES)
-        return self._get_allowed_value(source, field)
+        return self.get_allowed_value(source, field)
 
     def uk_country(self, field=None):
         source = lambda: random.choice(data.UK_COUNTRIES)
-        return self._get_allowed_value(source, field)
+        return self.get_allowed_value(source, field)
 
     def lorem(self, field=None, val=None):
         """
@@ -163,7 +163,7 @@ class DjangoFaker(object):
                 return "\n".join(parts)
         else:
             source = self.faker.lorem
-        return self._get_allowed_value(source, field)
+        return self.get_allowed_value(source, field)
 
     ## Other attributes provided by 'Faker':
 
@@ -186,7 +186,7 @@ class DjangoFaker(object):
 
         def func(*args, **kwargs):
             field = kwargs.get('field', None)
-            return self._get_allowed_value(source, field)
+            return self.get_allowed_value(source, field)
         return func
 
 
