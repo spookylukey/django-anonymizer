@@ -24,6 +24,14 @@ which might not be acceptable for your data. This application **should** be good
 enough for simpler policies like 'remove all real telephone numbers from the
 database'.
 
+An alternative approach to the problem of realistic ammount of test data for
+development/tests is to populate a database from scratch - see `django-poseur
+<https://github.com/alliterativeanimal/django-poseur>`_, `django-mockups
+<https://github.com/sorl/django-mockups>`_ and `django-autofixture
+<https://github.com/gregmuellegger/django-autofixture>`_. The disavantage of
+that method is that the structure of the data - in terms of related models - can
+be unrealistic.
+
 Quick overview (see docs for more information, either in docs/ or on
 <http://packages.python.org/django-anonymizer>).
 
