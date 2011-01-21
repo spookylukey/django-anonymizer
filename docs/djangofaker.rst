@@ -8,6 +8,17 @@ DjangoFaker - Django-aware fake data
    data. It encapsulates some knowledge about Django models and fields to
    attempt to generate data that fits the constraints of the model.
 
+   Methods that are useful for generating random data directly, that are not
+   wrapped by :mod:`anonymizer.replacers`:
+
+   .. method:: simple_pattern(pattern, field=None)
+
+      Generates data that matches the given pattern, where pattern is reproduced
+      as it is with '#' replaced by a random digit and '?' with a random letter.
+
+   Methods useful for 3rd parties to generate random data that respects Django
+   models:
+
    .. method:: get_allowed_value(self, source, field)
 
       This method is the part that encapsulates knowledge about Django models
@@ -27,11 +38,7 @@ DjangoFaker - Django-aware fake data
 
       * The ``unique`` constraint.
 
-
-   The remaining public methods all generate different types of fake data, using
-   ``get_allowed_value`` to apply constraints. Many methods use an underlying
-   ``faker.Faker`` instance. These include the following, which have some useful
-   properties.
+   Methods with useful/interesting properties:
 
    .. method:: name(self, field=None, **kwargs)
 
@@ -68,3 +75,7 @@ DjangoFaker - Django-aware fake data
    upset the state of the cycle. To avoid this, put fields with a unique
    constraint at the start of the :attr:`~anonymizer.base.Anonymizer.attributes`
    list.
+
+   DjangoFaker has various other methods, most of which delegate to an
+   underlying ``faker.Faker instance``, including 'street_address', 'city' etc.
+   See the source for more details.
