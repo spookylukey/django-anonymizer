@@ -19,7 +19,9 @@ import sys, os
 #sys.path.insert(0, os.path.abspath('../'))
 
 # To be able to find source and dependencies, we must include the virtualenv
-venv = os.path.join(os.environ['HOME'], ".virtualenvs/anonymizer/bin/activate_this.py")
+venv = os.path.join(os.environ['HOME'],
+                    ".virtualenvs/anonymizer_%d%d/bin/activate_this.py" %
+                    sys.version_info[0:2])
 if os.path.exists(venv):
     execfile(venv, dict(__file__=venv))
 else:
