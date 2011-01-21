@@ -54,13 +54,12 @@ DjangoFaker - Django-aware fake data
 
    .. method:: email(self, field=None, **kwargs)
 
-      Returns a randomly generated email address, using the pattern
+      Generates a random email address, using the pattern
       '<initial><last name>@<free email provider>'
 
    .. method:: username(self, field=None, **kwargs)
 
-      Returns a randomly generated user name, using the pattern
-      '<initial><lastname>'.
+      Generates a random user name, using the pattern '<initial><lastname>'.
 
    These name-related methods have the property that the same underlying first
    name and last name will be used until you repeat any of the methods. This
