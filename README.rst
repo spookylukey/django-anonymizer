@@ -75,6 +75,6 @@ Quick overview (see docs for more information, either in docs/ or on
 Tests
 =====
 
-To run the test suite, do::
+To run the test suite, do the following with the ``manage.py`` of *this* project::
 
     ./manage.py test --settings=test_settings
