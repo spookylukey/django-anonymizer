@@ -7,6 +7,6 @@ DATABASES = {
 
 INSTALLED_APPS = [
     'anonymizer',
-    'anonymizer.tests.testapp',
+    'anonymizer.tests',
 ]
 

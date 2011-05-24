@@ -7,15 +7,15 @@ from django.utils import unittest
 from django.test import TestCase
 
 from anonymizer import Anonymizer, introspect
-from anonymizer.tests import testapp
+from anonymizer.tests import models as test_models
 
 
 class TestIntrospect(TestCase):
 
     def test_eveything(self):
-        mod = introspect.create_anonymizers_module(testapp.models)
+        mod = introspect.create_anonymizers_module(test_models)
         expected = """
-from anonymizer.tests.testapp.models import Other, EverythingModel
+from anonymizer.tests.models import Other, EverythingModel
 from anonymizer import Anonymizer
 
 class OtherAnonymizer(Anonymizer):
@@ -60,25 +60,25 @@ class TestAnonymizer(TestCase):
     NUM_ITEMS = 1000
 
     def setUp(self):
-        self.o1 = testapp.models.Other.objects.create()
+        self.o1 = test_models.Other.objects.create()
         for x in xrange(0, self.NUM_ITEMS):
             d = datetime.now() + timedelta(365*x)
-            testapp.models.EverythingModel.objects.create(o1=self.o1,
-                                                          username="intial%d" % x,
-                                                          birthday=d,
-                                                          age=x,
-                                                          some_datetime=datetime.now(),
-                                                          some_date=date.today(),
-                                                          sex='X',
-                                                          )
+            test_models.EverythingModel.objects.create(o1=self.o1,
+                                                       username="intial%d" % x,
+                                                       birthday=d,
+                                                       age=x,
+                                                       some_datetime=datetime.now(),
+                                                       some_date=date.today(),
+                                                       sex='X',
+                                                       )
 
     def test_eveything(self):
         # Test for as much as possible in one test.
-        assert testapp.models.EverythingModel.objects.count() == self.NUM_ITEMS
-        assert testapp.models.EverythingModel._meta.get_field_by_name('username')[0].unique == True
+        assert test_models.EverythingModel.objects.count() == self.NUM_ITEMS
+        assert test_models.EverythingModel._meta.get_field_by_name('username')[0].unique == True
 
         class EverythingAnonmyizer(Anonymizer):
-            model = testapp.models.EverythingModel
+            model = test_models.EverythingModel
 
             attributes = [
                 ('username', 'username'),
@@ -98,7 +98,7 @@ class TestAnonymizer(TestCase):
             ]
 
         EverythingAnonmyizer().run()
-        objs = testapp.models.EverythingModel.objects.all()
+        objs = test_models.EverythingModel.objects.all()
         self.assertEqual(len(objs), self.NUM_ITEMS)
         for o in objs:
             # check everything has been changed
