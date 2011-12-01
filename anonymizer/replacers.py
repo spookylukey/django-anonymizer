@@ -40,6 +40,11 @@ date.__doc__ = """
 Returns a random date
 """
 
+decimal = lambda anon, obj, field, val: anon.faker.decimal(field=field)
+decimal.__doc__ = """
+Returns a random decimal
+"""
+
 uk_postcode = lambda anon, obj, field, val: anon.faker.uk_postcode(field=field)
 uk_postcode.__doc__ = """
 Generates a random UK postcode (not necessarily valid, but it will look like one).

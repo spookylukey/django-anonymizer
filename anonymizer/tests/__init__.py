@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, date
+import decimal
 import os
 import sys
 
@@ -49,6 +50,7 @@ class EverythingModelAnonymizer(Anonymizer):
         ('some_datetime', "datetime"),
         ('some_date', "date"),
         ('sex', "choice"),
+        ('price', "decimal"),
     ]
 """
         self.assertEqual(mod.strip(), expected.strip())
@@ -70,6 +72,7 @@ class TestAnonymizer(TestCase):
                                                        some_datetime=datetime.now(),
                                                        some_date=date.today(),
                                                        sex='X',
+                                                       price=decimal.Decimal("1.23"),
                                                        )
 
     def test_eveything(self):
@@ -95,6 +98,7 @@ class TestAnonymizer(TestCase):
                 ('some_datetime', "datetime"),
                 ('some_date', "date"),
                 ('sex', "choice"),
+                ('price', "decimal"),
             ]
 
         EverythingAnonmyizer().run()

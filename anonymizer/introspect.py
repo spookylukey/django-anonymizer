@@ -17,6 +17,7 @@ field_replacers = {
     'SmallIntegerField': '"small_integer"',
     'PositiveIntegerField': '"positive_integer"',
     'PositiveSmallIntegerField': '"positive_small_integer"',
+    'DecimalField': '"decimal"',
 }
 
 # NB - order matters. 'address' is more generic so should be at the end.

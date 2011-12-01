@@ -1,4 +1,5 @@
 from datetime import datetime
+import decimal
 import random
 
 from faker import data
@@ -126,6 +127,10 @@ class DjangoFaker(object):
         """
         d = self.datetime(field=field, val=val)
         return d.date()
+
+    def decimal(self, field=None, val=None):
+        source = lambda: decimal.Decimal(random.randrange(0, 100000))/(10**field.decimal_places)
+        return self.get_allowed_value(source, field)
 
     def uk_postcode(self, field=None):
         return self.get_allowed_value(uk_postcode, field)
