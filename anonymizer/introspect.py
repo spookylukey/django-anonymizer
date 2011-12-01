@@ -38,6 +38,7 @@ charfield_replacers = [
     (r'(\b|_)zipcode\d*', '"zip_code"'),
     (r'(\b|_)zip_code\d*', '"zip_code"'),
     (r'(\b|_)telephone\d*', '"phonenumber"'),
+    (r'(\b|_)phone\d*', '"phonenumber"'),
     (r'(\b|_)mobile\d*', '"phonenumber"'),
     (r'(\b|_)tel\d*\b', '"phonenumber"'),
     (r'(\b|_)state\d*\b', '"state"'),
