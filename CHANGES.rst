@@ -1,3 +1,10 @@
+Version 0.3
+-----------
+
+* Support for ``DecimalField``.
+* Improved docs.
+* Added tests
+
 Version 0.2
 -----------
 
