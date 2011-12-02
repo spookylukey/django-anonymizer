@@ -2,6 +2,8 @@
  Django Anonymizer
 ===================
 
+Downloads: http://pypi.python.org/pypi/django-anonymizer
+
 Intro
 =====
 
