@@ -25,7 +25,7 @@ setup(
     license = "MIT",
     keywords = "django data database anonymize private",
     classifiers = [
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 4 - Beta",
         "Environment :: Web Environment",
         "Environment :: Console",
         "Intended Audience :: Developers",
