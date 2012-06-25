@@ -80,4 +80,4 @@ Tests
 To run the test suite, do the following inside the folder containing this
 README::
 
-    django-admin.py test --settings=test_settings
+    django-admin.py test --settings=anonymizer.test_settings
