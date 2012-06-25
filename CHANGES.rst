@@ -1,3 +1,15 @@
+Version 0.4
+-----------
+
+* Changed 'Anonymizer.attributes' to require every field to be listed.  This is
+  deal with the common security problem when a model is updated, but the
+  Anonymizer is not updated.
+
+  Fields that should not be anonymized should specify the special value "SKIP"
+  as the 'replacer'.
+
+* attributes must now be a list of tuples, not a dictionary.
+
 Version 0.3
 -----------
 

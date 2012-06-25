@@ -33,6 +33,7 @@ class Command(AppCommand):
                 is_anonymizer = False
 
             if is_anonymizer:
+                v().validate()
                 anonymizers.append(v)
 
         anonymizers.sort(key=lambda c:c.order)

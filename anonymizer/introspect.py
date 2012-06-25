@@ -4,11 +4,11 @@ from django.db.models import EmailField
 from django.db.models.loading import get_models
 
 field_replacers = {
-    'AutoField': None,
-    'ForeignKey': None,
-    'ManyToManyField': None,
-    'OneToOneField': None,
-    'SlugField': None, # we probably don't want to change slugs
+    'AutoField': '"SKIP"',
+    'ForeignKey': '"SKIP"',
+    'ManyToManyField': '"SKIP"',
+    'OneToOneField': '"SKIP"',
+    'SlugField': '"SKIP"', # we probably don't want to change slugs
     'DateField': '"date"',
     'DateTimeField': '"datetime"',
     'BooleanField': '"bool"',
@@ -85,7 +85,6 @@ def get_replacer_for_field(field):
     return r
 
 attribute_template = "        ('%(attname)s', %(replacer)s),"
-skipped_template   = "         # Skipping field %s"
 class_template = """
 class %(modelname)sAnonymizer(Anonymizer):
 
@@ -111,11 +110,8 @@ def create_anonymizer(model):
 
     for f in fields:
         replacer = get_replacer_for_field(f)
-        if replacer is None:
-            attributes.append(skipped_template % f.attname)
-        else:
-            attributes.append(attribute_template % {'attname': f.attname,
-                                                    'replacer': replacer })
+        attributes.append(attribute_template % {'attname': f.attname,
+                                                'replacer': replacer })
     return class_template % {'modelname':model.__name__,
                              'attributes': "\n".join(attributes) }
 

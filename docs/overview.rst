@@ -19,9 +19,13 @@ Overview
 
   * Choose an appropriate 'replacer' from the :mod:`anonymizer.replacers` module.
 
-  * For some fields, you will want to remove them from the list of attributes, so
-    that the values will be unchanged - especially things like denormalised
-    fields.
+  * For some fields, you will want to specify "SKIP" so that the values will be
+    unchanged - especially things like denormalised fields.
+
+    Note that you can't just remove from the list. This is to cope with the
+    problem of new fields being added to the model, but the developer forgetting
+    to add the field to the anonymizer. To prevent that situation, every field
+    must listed in the 'attributes' list.
 
   * Some models may not need any anonymization, and the corresponding anonymizer
     can be deleted.

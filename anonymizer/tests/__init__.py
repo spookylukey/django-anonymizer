@@ -24,7 +24,7 @@ class OtherAnonymizer(Anonymizer):
     model = Other
 
     attributes = [
-         # Skipping field id
+        ('id', "SKIP"),
     ]
 
 
@@ -33,14 +33,14 @@ class EverythingModelAnonymizer(Anonymizer):
     model = EverythingModel
 
     attributes = [
-         # Skipping field id
+        ('id', "SKIP"),
         ('username', "username"),
         ('name', "name"),
         ('email', "email"),
         ('address_city', "city"),
         ('address_post_code', "uk_postcode"),
         ('address', "full_address"),
-         # Skipping field o1_id
+        ('o1_id', "SKIP"),
         ('something', "lorem"),
         ('something_else', "lorem"),
         ('some_varchar', "varchar"),
@@ -84,6 +84,9 @@ class TestAnonymizer(TestCase):
             model = test_models.EverythingModel
 
             attributes = [
+                ('id', "SKIP"),
+                ('o1_id', "SKIP"),
+                ('icon', "SKIP"),
                 ('username', 'username'),
                 ('name', "name"),
                 ('email', "email"),

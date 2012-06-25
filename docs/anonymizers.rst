@@ -35,6 +35,10 @@ also override other methods to customise the process.
       before other fields like name (see :class:`anonymizer.base.DjangoFaker`
       for more details).
 
+      For security in the case of new fields being added to the model, the list
+      must contain all attributes corresponding to fields on the model. To
+      specify that an attribute should not be altered, using the string "SKIP".
+
    .. attribute:: order
 
       Sometimes it is important that some anonymizers are run before others.  By

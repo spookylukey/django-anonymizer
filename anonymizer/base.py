@@ -248,14 +248,9 @@ class Anonymizer(object):
         If it returns False, the object will not be saved
         """
         attributes = self.get_attributes()
-        if isinstance(attributes, dict):
-            import warnings
-            warnings.warn("The 'attributes' attribute should now be a list of tuples, not a dictionary", PendingDeprecationWarning)
-            items = attributes.items()
-        else:
-            items = attributes
-
-        for attname, replacer in items:
+        for attname, replacer in attributes:
+            if replacer == "SKIP":
+                continue
             self.alter_object_attribute(obj, attname, replacer)
 
     def alter_object_attribute(self, obj, attname, replacer):
@@ -275,8 +270,23 @@ class Anonymizer(object):
         setattr(obj, attname, replacement)
 
     def run(self):
+        self.validate()
         for obj in self.get_query_set().iterator():
             retval = self.alter_object(obj)
             if retval is not False:
-             obj.save()
+                obj.save()
 
+    def validate(self):
+        attributes = self.get_attributes()
+        model_attrs = set(f.attname for f in self.model._meta.fields)
+        given_attrs = set(name for name,replacer in attributes)
+        if model_attrs != given_attrs:
+            msg = ""
+            missing_attrs = model_attrs - given_attrs
+            if missing_attrs:
+                msg += "The following fields are missing: %s. " % ", ".join(missing_attrs)
+                msg += "Add the replacer \"SKIP\" to skip these fields."
+            extra_attrs = given_attrs - model_attrs
+            if extra_attrs:
+                msg += "The following non-existent fields were supplied: %s." % ", ".join(extra_attrs)
+            raise ValueError("The attributes list for %s does not match the complete list of fields for that model. %s" % (self.model.__name__, msg))

@@ -18,8 +18,7 @@ almost certainly have to edit the generated file to tweak the choices made, and
 in many cases to completely remove anonymizers for models that don't need them.
 
 Currently some fields are deliberately skipped - these include `ForeignKey`
-fields and `ManyToManyField` relations. A comment will be included to show they
-have been skipped.
+fields and `ManyToManyField` relations.
 
 Some fields type are also currently unsupported. The corresponding code
 generated will produce an error on import, to indicate that it must be dealt
