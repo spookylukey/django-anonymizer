@@ -2,10 +2,28 @@
  Django Anonymizer
 ===================
 
-Downloads: http://pypi.python.org/pypi/django-anonymizer
+Status
+======
+
+This project is not active.
+
+The approach taken by this project doesn't scale well above small databases - it requires
+a very large number of database SELECTs and UPDATEs.
+
+Also, the method envisaged by this project assumes you are running it on your development
+machine. However, that means that you have already downloaded customer data onto your machine,
+which is an issue.
+
+I therefore recommend that an anonymization script should use SQL directly, and should be run
+in a specially prepared database before the data gets anywhere near developer machines.
+
+For this reason, there won't be further work on this project.
+
 
 Intro
 =====
+
+Downloads: http://pypi.python.org/pypi/django-anonymizer
 
 This app helps you anonymize data in a database used for development of a Django
 project.
